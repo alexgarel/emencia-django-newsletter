@@ -2,6 +2,8 @@
 import mimetypes
 
 from random import sample
+import re
+from StringIO import StringIO
 from smtplib import SMTPRecipientsRefused
 from datetime import datetime
 
@@ -20,7 +22,7 @@ except ImportError:  # Python 2.4 compatibility
     from email.MIMEBase import MIMEBase
     from email.MIMEImage import MIMEImage
 from email import message_from_file
-from html2text import html2text
+from html2text import html2text as html2text_orig
 from django.contrib.sites.models import Site
 from django.template import Context, Template
 from django.template.loader import render_to_string
@@ -37,6 +39,25 @@ from emencia.django.newsletter.settings import TRACKING_IMAGE
 from emencia.django.newsletter.settings import UNIQUE_KEY_LENGTH
 from emencia.django.newsletter.settings import UNIQUE_KEY_CHAR_SET
 from emencia.django.newsletter.settings import INCLUDE_UNSUBSCRIPTION
+from emencia.django.newsletter.settings import TRACKING_IMAGE_FORMAT
+
+link_re = re.compile(r"https?://([^ \n]+\n)+[^ \n]+", re.MULTILINE)
+
+def html2text(html):
+    """use html2text but repair newlines cutting urls"""
+    txt = html2text_orig(html)
+    links = list(link_re.finditer(txt))
+    # replace links
+    out = StringIO()
+    pos = 0 # position in txt
+    for l in links:
+        out.write(txt[pos:l.start()])
+        out.write(l.group().replace("\n",""))
+        pos = l.end()
+    out.write(txt[pos:])
+    return out.getvalue() 
+      
+   
 
 
 class Mailer(object):
