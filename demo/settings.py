@@ -3,6 +3,8 @@ import os
 
 gettext = lambda s: s
 
+TIME_ZONE = None
+
 DATABASES = {'default':
              {'ENGINE': 'django.db.backends.sqlite3',
               'NAME': os.path.join(os.path.dirname(__file__), 'demo.db')}
@@ -12,12 +14,17 @@ MEDIA_URL = 'http://localhost:8000/'
 
 SECRET_KEY = 'jkjf7878fsdok-|767sjdvjsm_qcskhvs$:?shf67dd66%&sfj'
 
+NEWSLETTER_TRACKING_IMAGE_FORMAT = 'gif'
+NEWSLETTER_TRACKING_IMAGE = 'R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+
 USE_I18N = True
 USE_L10N = True
 
 SITE_ID = 1
 
-LANGUAGE_CODE = 'en'
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
+LANGUAGE_CODE = 'fr'
 
 LANGUAGES = (('en', gettext('English')),
              ('fr', gettext('French')),
@@ -46,7 +53,12 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
     'django.template.loaders.eggs.load_template_source',
-    )
+   )
+
+TEMPLATE_DIRS = (
+   '/home/www/emencia-django-newsletter/demo/templates',
+)
+
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',

@@ -204,7 +204,9 @@ class Mailer(object):
         context = Context({'contact': contact,
                            'domain': Site.objects.get_current().domain,
                            'newsletter': self.newsletter,
-                           'uidb36': uidb36, 'token': token})
+                           'uidb36': uidb36, 'token': token,
+                           'format': TRACKING_IMAGE_FORMAT})
+
 
         content = self.newsletter_template.render(context)
         if TRACKING_LINKS:
