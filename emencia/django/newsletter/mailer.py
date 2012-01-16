@@ -107,7 +107,9 @@ class Mailer(object):
             ContactMailingStatus.objects.create(newsletter=self.newsletter,
                                                 contact=contact, status=status)
         self.smtp.quit()
+        self.smtp = None
         self.update_newsletter_status()
+        return len(self.expedition_list)
 
     def build_message(self, contact):
         """
