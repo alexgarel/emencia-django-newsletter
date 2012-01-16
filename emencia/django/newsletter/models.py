@@ -219,6 +219,11 @@ class Newsletter(models.Model):
     header_reply = models.CharField(_('reply to'), max_length=255,
                                     default=DEFAULT_HEADER_REPLY)
 
+    ask_receipt = models.BooleanField(_('ask receipt'), default=True) 
+    receipt_to = models.CharField(_('send receipt to'), max_length=255,
+                                    default=DEFAULT_HEADER_REPLY,
+                                    blank=True, null=True)
+
     status = models.IntegerField(_('status'), choices=STATUS_CHOICES, default=DRAFT)
     sending_date = models.DateTimeField(_('sending date'), default=datetime.now)
 

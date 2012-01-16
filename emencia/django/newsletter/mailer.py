@@ -103,6 +103,11 @@ class Mailer(object):
         message['From'] = smart_str(self.newsletter.header_sender)
         message['Reply-to'] = smart_str(self.newsletter.header_reply)
         message['To'] = contact.mail_format()
+        if self.newsletter.ask_receipt:
+            # see RFC 3798 2.1.
+            message['Disposition-notification-to'] = (
+                          smart_str(self.newsletter.receipt_to)
+                          or smart_str(self.newsletter.header_reply) )
 
         message_alt = MIMEMultipart('alternative')
         message_alt.attach(MIMEText(smart_str(content_text), 'plain', 'UTF-8'))
