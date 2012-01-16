@@ -26,7 +26,8 @@ def track_links(content, context):
 
     soup = BeautifulSoup(content)
     for link_markup in soup('a'):
-        if link_markup.get('href'):
+        if ( link_markup.get('href') 
+             and  "offtrack" not in link_markup.get('class','').split() ):
             link_href = link_markup['href']
             link_title = link_markup.get('title', link_href)
             link, created = Link.objects.get_or_create(url=link_href,
