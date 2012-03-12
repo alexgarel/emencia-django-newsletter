@@ -96,7 +96,7 @@ class SMTPServer(models.Model):
 
 class Contact(models.Model):
     """Contact for emailing"""
-    email = models.EmailField(_('email'), unique=True)
+    email = models.EmailField(_('email'))
     first_name = models.CharField(_('first name'), max_length=50, blank=True)
     last_name = models.CharField(_('last name'), max_length=50, blank=True)
 
@@ -149,6 +149,7 @@ class Contact(models.Model):
         ordering = ('creation_date',)
         verbose_name = _('contact')
         verbose_name_plural = _('contacts')
+        unique_together = ('email', 'tags')
 
 
 class MailingList(models.Model):
