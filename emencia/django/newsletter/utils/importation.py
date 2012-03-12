@@ -29,7 +29,7 @@ def create_contact(contact_dict, workgroups=[]):
         contact_dict['valid'] = False
 
     contact, created = Contact.objects.get_or_create(
-        email=contact_dict['email'],
+        email=contact_dict['email'], tags=contact_dict['tags'],
         defaults=contact_dict)
 
     if not created:
